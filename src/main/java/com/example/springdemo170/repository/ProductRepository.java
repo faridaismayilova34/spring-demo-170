@@ -28,17 +28,6 @@ public class ProductRepository {
                 .orElse(null);
     }
 
-//    public Product findById(int id) {
-//        for (Product p : products) {
-//            if (p.getId() == id) {
-//                return p;
-//            }
-//        }
-//        return null;
-//    }
-
-
-
     public Product save(Product product) {
         products.add(product);
         return product;
