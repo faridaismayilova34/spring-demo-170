@@ -2,6 +2,7 @@ package com.example.springdemo170.controller;
 
 import com.example.springdemo170.model.Product;
 import com.example.springdemo170.service.ProductService;
+import org.springframework.jmx.export.naming.IdentityNamingStrategy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ProductController {
 
     // 2. ID üzrə 1 məhsul qaytaran GET API
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable int id) {
+    public Product getProductById(@PathVariable Integer id) {
         return productService.getProductById(id);
     }
 
@@ -36,13 +37,13 @@ public class ProductController {
 
     // 4. ID üzrə məhsulu silən DELETE API
     @DeleteMapping("/{id}")
-    public boolean deleteProduct(@PathVariable int id) {
+    public boolean deleteProduct(@PathVariable Integer id) {
         return productService.deleteProduct(id);
     }
 
     // 5. ID üzrə məhsulu update edən PUT API
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable Integer id, @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
 }

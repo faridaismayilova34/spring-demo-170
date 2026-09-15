@@ -1,5 +1,6 @@
 package com.example.springdemo170.service;
 
+import com.example.springdemo170.entity.ProductEntity;
 import com.example.springdemo170.model.Product;
 import com.example.springdemo170.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -15,23 +16,74 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    // 1. GET ALL
     public List<Product> getProducts() {
-        return productRepository.findAll();
+        List<ProductEntity> productEntities = productRepository.findAll();
+        return productEntities.stream().map(
+                productEntity -> new Product(
+                        productEntity.getId(),
+                        productEntity.getName(),
+                        productEntity.getPrice(),
+                        productEntity.getCategory()
+                )
+        ).toList();
     }
 
-    public Product getProductById(int id) {
-        return productRepository.findById(id);
+    // 2. GET BY ID
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id)
+                .map(productEntity -> new Product(
+                        productEntity.getId(),
+                        productEntity.getName(),
+                        productEntity.getPrice(),
+                        productEntity.getCategory()
+                ))
+                .orElse(null);
     }
 
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
+    // 3. ADD PRODUCT
+    public Product addProduct(Product productDto) {
+        ProductEntity entity = new ProductEntity();
+        entity.setName(productDto.getName());
+        entity.setPrice(productDto.getPrice());
+        entity.setCategory(productDto.getCategory());
+
+        ProductEntity savedEntity = productRepository.save(entity);
+
+        return new Product(
+                savedEntity.getId(),
+                savedEntity.getName(),
+                savedEntity.getPrice(),
+                savedEntity.getCategory()
+        );
     }
 
-    public boolean deleteProduct(int id) {
-        return productRepository.deleteById(id);
+    // 4. DELETE PRODUCT
+    public boolean deleteProduct(Integer id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
-    public Product updateProduct(int id, Product product) {
-        return productRepository.update(id, product);
+    // 5. UPDATE PRODUCT
+    public Product updateProduct(Integer id, Product productDto) {
+        return productRepository.findById(id)
+                .map(existingEntity -> {
+                    existingEntity.setName(productDto.getName());
+                    existingEntity.setCategory(productDto.getCategory());
+                    existingEntity.setPrice(productDto.getPrice());
+
+                    ProductEntity updatedEntity = productRepository.save(existingEntity);
+
+                    return new Product(
+                            updatedEntity.getId(),
+                            updatedEntity.getName(),
+                            updatedEntity.getPrice(),
+                            updatedEntity.getCategory()
+                    );
+                })
+                .orElse(null);
     }
 }

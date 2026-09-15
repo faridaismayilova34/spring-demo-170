@@ -1,29 +1,34 @@
-package com.example.springdemo170.model;
+package com.example.springdemo170.entity;
 
-public class Product {
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "products")
+public class ProductEntity {
+
+    @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private Double price;
     private String category;
 
+    public ProductEntity() {
+    }
 
-    public Product(Integer id, String name, Double price, String category) {
+    public ProductEntity(Integer id, String name, Double price, String category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
     }
 
-    public Product() {
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-
     }
 
     public String getName() {
@@ -50,13 +55,5 @@ public class Product {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", category='" + category + '\'' +
-                '}';
-    }
+
 }
