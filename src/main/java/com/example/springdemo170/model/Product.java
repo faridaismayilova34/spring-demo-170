@@ -1,13 +1,13 @@
 package com.example.springdemo170.model;
 
 public class Product {
-    private Integer id;
+    private Long id;
     private String name;
     private Double price;
     private String category;
 
 
-    public Product(Integer id, String name, Double price, String category) {
+    public Product(Long id, String name, Double price, String category) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -17,11 +17,11 @@ public class Product {
     public Product() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
 
     }

@@ -7,27 +7,33 @@ import jakarta.persistence.*;
 public class ProductEntity {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private Double price;
     private String category;
 
+    // Bidirectional:
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
+
+
     public ProductEntity() {
     }
 
-    public ProductEntity(Integer id, String name, Double price, String category) {
+    public ProductEntity(Long id, String name, Double price, String category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,5 +61,7 @@ public class ProductEntity {
         this.category = category;
     }
 
+    public CustomerEntity getCustomer() { return customer; }
+    public void setCustomer(CustomerEntity customer) { this.customer = customer; }
 
 }

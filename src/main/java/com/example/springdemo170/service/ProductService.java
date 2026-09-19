@@ -86,4 +86,18 @@ public class ProductService {
                 })
                 .orElse(null);
     }
+
+
+
+    public String getCustomerNameByProductId(Integer productId) {
+        ProductEntity product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (product.getCustomer() != null) {
+            return product.getCustomer().getName();
+        }
+        return "Customer not found";
+    }
+
+
 }
